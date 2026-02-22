@@ -9,7 +9,7 @@
 
 body{
 font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
-background:#f9fafc;
+background:#f6f8fc;
 color:#111;
 display:flex;
 flex-direction:column;
@@ -17,16 +17,25 @@ align-items:center;
 padding:60px 20px;
 }
 
+.badge{
+background:#eef2ff;
+color:#4f46e5;
+padding:6px 14px;
+border-radius:20px;
+font-size:13px;
+margin-bottom:20px;
+}
+
 .hero{
 text-align:center;
-max-width:700px;
-margin-bottom:60px;
+max-width:720px;
+margin-bottom:50px;
 }
 
 .hero h1{
-font-size:48px;
+font-size:52px;
+line-height:1.1;
 font-weight:700;
-line-height:1.2;
 }
 
 .hero span{
@@ -36,37 +45,64 @@ background:linear-gradient(90deg,#4f46e5,#2563eb);
 }
 
 .hero p{
-margin-top:20px;
-color:#555;
+margin-top:18px;
 font-size:18px;
+color:#555;
+line-height:1.5;
 }
 
 .card{
-background:#fff;
-padding:40px;
-border-radius:20px;
-box-shadow:0 30px 80px rgba(0,0,0,0.08);
+background:white;
+padding:35px;
+border-radius:22px;
+box-shadow:0 40px 100px rgba(0,0,0,0.08);
 width:100%;
-max-width:500px;
+max-width:520px;
 }
 
-.card h2{
-font-size:20px;
+.card-header{
+display:flex;
+align-items:center;
+gap:10px;
 margin-bottom:20px;
+}
+
+.icon{
+background:#f1f5f9;
+padding:8px;
+border-radius:10px;
+font-size:18px;
+}
+
+.card-title{
+font-weight:600;
+font-size:18px;
+}
+
+.card-sub{
+font-size:13px;
+color:#666;
+margin-top:4px;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
 gap:15px;
+margin-top:20px;
 }
 
 input{
 padding:12px;
 border-radius:10px;
 border:1px solid #ddd;
-font-size:16px;
-width:100%;
+font-size:15px;
+}
+
+.small{
+font-size:12px;
+color:#777;
+margin-top:6px;
 }
 
 button{
@@ -75,16 +111,16 @@ width:100%;
 padding:14px;
 border:none;
 border-radius:12px;
-background:#111827;
+background:linear-gradient(90deg,#111827,#1f2937);
 color:#fff;
-font-size:16px;
+font-size:15px;
 cursor:pointer;
 }
 
 .result{
 margin-top:20px;
-font-size:18px;
 font-weight:600;
+font-size:18px;
 }
 
 .lang{
@@ -102,27 +138,45 @@ font-size:14px;
 
 <div class="lang" onclick="toggleLang()">中文 / English</div>
 
+<div class="badge">Advanced Expected Value Engine</div>
+
 <div class="hero">
 <h1 id="title">
 Make calculated <br>
 <span>decisions, every time.</span>
 </h1>
 <p id="subtitle">
-Calculate the long-term outcome before taking the risk.
+Calculate the exact long-term outcome of any probability-based scenario.
+Know whether you'll profit or lose before taking the risk.
 </p>
 </div>
 
 <div class="card">
 
-<h2 id="cardTitle">Expected Value</h2>
-
-<div class="grid">
-<input type="number" id="p" placeholder="Probability">
-<input type="number" id="r" placeholder="Reward">
-<input type="number" id="c" placeholder="Cost">
+<div class="card-header">
+<div class="icon">🧮</div>
+<div>
+<div class="card-title" id="cardTitle">Expected Value</div>
+<div class="card-sub" id="cardSub">Calculate the long-term profitability of a bet</div>
+</div>
 </div>
 
-<button onclick="calc()" id="btn">Calculate</button>
+<div class="grid">
+<div>
+<input type="number" id="p" placeholder="Probability">
+<div class="small">Value between 0 and 1</div>
+</div>
+<div>
+<input type="number" id="r" placeholder="Reward">
+<div class="small">Amount won</div>
+</div>
+<div>
+<input type="number" id="c" placeholder="Cost">
+<div class="small">Initial investment</div>
+</div>
+</div>
+
+<button onclick="calc()" id="btn">Calculate Expected Value →</button>
 
 <div class="result" id="result"></div>
 
@@ -137,20 +191,16 @@ zh=!zh;
 
 if(zh){
 document.getElementById("title").innerHTML="每一次都做出<br><span>精準決策</span>";
-document.getElementById("subtitle").innerText="在承擔風險前，先計算長期結果。";
+document.getElementById("subtitle").innerText="計算任何基於機率的情境的長期結果。在承擔風險前，先知道是賺還是賠。";
 document.getElementById("cardTitle").innerText="期望值";
-document.getElementById("btn").innerText="計算";
-document.getElementById("p").placeholder="機率 (0~1)";
-document.getElementById("r").placeholder="獎金";
-document.getElementById("c").placeholder="成本";
+document.getElementById("cardSub").innerText="計算投注的長期獲利能力";
+document.getElementById("btn").innerText="計算期望值 →";
 }else{
 document.getElementById("title").innerHTML="Make calculated <br><span>decisions, every time.</span>";
-document.getElementById("subtitle").innerText="Calculate the long-term outcome before taking the risk.";
+document.getElementById("subtitle").innerText="Calculate the exact long-term outcome of any probability-based scenario. Know whether you'll profit or lose before taking the risk.";
 document.getElementById("cardTitle").innerText="Expected Value";
-document.getElementById("btn").innerText="Calculate";
-document.getElementById("p").placeholder="Probability";
-document.getElementById("r").placeholder="Reward";
-document.getElementById("c").placeholder="Cost";
+document.getElementById("cardSub").innerText="Calculate the long-term profitability of a bet";
+document.getElementById("btn").innerText="Calculate Expected Value →";
 }
 }
 
