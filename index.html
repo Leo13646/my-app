@@ -1,41 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>期望值計算器</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>期望值計算器 | Expected Value</title>
+
+<style>
+body{
+margin:0;
+font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+background:#f5f7fb;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0 20px 50px rgba(0,0,0,0.1);
+width:90%;
+max-width:420px;
+text-align:center;
+}
+
+h1{
+font-size:26px;
+margin-bottom:5px;
+}
+
+.sub{
+color:#666;
+font-size:14px;
+margin-bottom:25px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid #ddd;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#4f46e5,#2563eb);
+color:white;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.result{
+margin-top:20px;
+font-weight:bold;
+font-size:18px;
+}
+
+.lang{
+margin-bottom:15px;
+font-size:13px;
+cursor:pointer;
+color:#2563eb;
+}
+</style>
 </head>
-<body style="text-align:center;font-family:Arial;padding:30px;">
 
-<h2>期望值計算器</h2>
+<body>
 
-<p>機率 (例如 0.3)</p>
-<input type="number" id="p"><br><br>
+<div class="card">
 
-<p>獎金</p>
-<input type="number" id="r"><br><br>
+<div class="lang" onclick="toggleLang()">中文 / English</div>
 
-<p>成本</p>
-<input type="number" id="c"><br><br>
+<h1 id="title">期望值計算器</h1>
+<div class="sub" id="subtitle">計算長期是否會賺錢</div>
 
-<button onclick="calc()">計算</button>
+<input type="number" id="p" placeholder="機率 (例如 0.3)">
+<input type="number" id="r" placeholder="獎金">
+<input type="number" id="c" placeholder="成本">
 
-<h3 id="result"></h3>
+<button onclick="calculate()" id="btn">計算期望值</button>
+
+<div class="result" id="result"></div>
+
+</div>
 
 <script>
-function calc(){
-let p = parseFloat(document.getElementById("p").value);
-let r = parseFloat(document.getElementById("r").value);
-let c = parseFloat(document.getElementById("c").value);
+
+let isChinese = true;
+
+function toggleLang(){
+isChinese = !isChinese;
+
+if(isChinese){
+document.getElementById("title").innerText="期望值計算器";
+document.getElementById("subtitle").innerText="計算長期是否會賺錢";
+document.getElementById("p").placeholder="機率 (例如 0.3)";
+document.getElementById("r").placeholder="獎金";
+document.getElementById("c").placeholder="成本";
+document.getElementById("btn").innerText="計算期望值";
+}
+else{
+document.getElementById("title").innerText="Expected Value Calculator";
+document.getElementById("subtitle").innerText="Calculate long-term profitability";
+document.getElementById("p").placeholder="Probability (e.g. 0.3)";
+document.getElementById("r").placeholder="Reward";
+document.getElementById("c").placeholder="Cost";
+document.getElementById("btn").innerText="Calculate";
+}
+}
+
+function calculate(){
+let p=parseFloat(document.getElementById("p").value);
+let r=parseFloat(document.getElementById("r").value);
+let c=parseFloat(document.getElementById("c").value);
 
 if(isNaN(p)||isNaN(r)||isNaN(c)){
-document.getElementById("result").innerHTML="請填完整數字";
+document.getElementById("result").innerText=isChinese?"請填完整數字":"Please enter all values";
 return;
 }
 
-let ev = p*r-c;
+let ev=p*r-c;
 
-document.getElementById("result").innerHTML="期望值 = "+ev;
+if(isChinese){
+document.getElementById("result").innerText="期望值 = "+ev;
+}else{
+document.getElementById("result").innerText="Expected Value = "+ev;
 }
+}
+
 </script>
 
 </body>
