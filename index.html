@@ -21,7 +21,7 @@ padding:110px 20px;
 min-height:100vh;
 }
 
-/* ===== badge ===== */
+/* badge */
 .badge{
 background:rgba(255,255,255,.05);
 padding:6px 16px;
@@ -30,10 +30,9 @@ font-size:12px;
 letter-spacing:.4px;
 margin-bottom:32px;
 color:#cfcfcf;
-backdrop-filter:blur(10px);
 }
 
-/* ===== hero ===== */
+/* hero */
 .hero{
 text-align:center;
 max-width:720px;
@@ -55,23 +54,16 @@ background:linear-gradient(
 );
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-background-size:200% auto;
-}
-@keyframes shimmer {
-0% { background-position: 0% center; }
-100% { background-position: 200% center; }
 }
 
-.hero h1{
-animation: shimmer 6s linear infinite;
-}.hero p{
+.hero p{
 margin-top:24px;
 font-size:17px;
 color:#9ca3af;
 line-height:1.6;
 }
 
-/* ===== card ===== */
+/* card */
 .card{
 background:rgba(255,255,255,.04);
 backdrop-filter:blur(30px);
@@ -84,7 +76,7 @@ width:100%;
 max-width:560px;
 }
 
-/* ===== header ===== */
+/* header */
 .card-header{
 display:flex;
 align-items:center;
@@ -113,7 +105,7 @@ color:#737373;
 margin-top:3px;
 }
 
-/* ===== grid ===== */
+/* grid */
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -128,7 +120,7 @@ gap:18px;
 .grid{grid-template-columns:1fr;}
 }
 
-/* ===== inputs ===== */
+/* inputs */
 input{
 width:100%;
 padding:14px;
@@ -152,7 +144,7 @@ color:#6b7280;
 margin-top:6px;
 }
 
-/* ===== BUTTON 強化焦點 ===== */
+/* button */
 button{
 margin-top:34px;
 width:100%;
@@ -163,7 +155,6 @@ background:linear-gradient(180deg,#ffffff,#d4d4d4);
 color:#000;
 font-size:15px;
 font-weight:600;
-letter-spacing:.3px;
 cursor:pointer;
 transition:.2s ease;
 box-shadow:
@@ -227,15 +218,15 @@ Know whether you'll profit or lose before taking the risk.
 
 <div class="grid">
 <div>
-<input type="number" id="p">
+<input type="number" id="p" placeholder="Probability">
 <div class="small" id="pSmall">Value between 0 and 1</div>
 </div>
 <div>
-<input type="number" id="r">
+<input type="number" id="r" placeholder="Reward">
 <div class="small" id="rSmall">Amount won</div>
 </div>
 <div>
-<input type="number" id="c">
+<input type="number" id="c" placeholder="Cost">
 <div class="small" id="cSmall">Initial investment</div>
 </div>
 </div>
@@ -252,48 +243,35 @@ let zh=false;
 function toggleLang(){
 zh=!zh;
 
-if(zh){
-badge.innerText="進階期望值計算引擎";
-title.innerText="每一次都做出精準決策";
-subtitle.innerText="計算任何基於機率的情境長期結果，在承擔風險前先知道是賺還是賠。";
-cardTitle.innerText="期望值";
-cardSub.innerText="計算長期獲利能力";
-p.placeholder="機率";
-r.placeholder="獎勵";
-c.placeholder="花費";
-pSmall.innerText="數值介於 0 到 1";
-rSmall.innerText="可能獲得的金額";
-cSmall.innerText="投入成本";
-btn.innerText="計算期望值";
-}else{
-badge.innerText="Advanced Expected Value Engine";
-title.innerText="Make calculated decisions, every time.";
-subtitle.innerText="Calculate the exact long-term outcome of any probability-based scenario.";
-cardTitle.innerText="Expected Value";
-cardSub.innerText="Calculate long-term profitability";
-p.placeholder="Probability";
-r.placeholder="Reward";
-c.placeholder="Cost";
-pSmall.innerText="Value between 0 and 1";
-rSmall.innerText="Amount won";
-cSmall.innerText="Initial investment";
-btn.innerText="Calculate Expected Value";
-}
+document.getElementById("badge").innerText = zh?"進階期望值計算引擎":"Advanced Expected Value Engine";
+document.getElementById("title").innerText = zh?"每一次都做出精準決策":"Make calculated decisions, every time.";
+document.getElementById("subtitle").innerText = zh?"計算任何基於機率的情境長期結果，在承擔風險前先知道是賺還是賠。":"Calculate the exact long-term outcome of any probability-based scenario.";
+document.getElementById("cardTitle").innerText = zh?"期望值":"Expected Value";
+document.getElementById("cardSub").innerText = zh?"計算長期獲利能力":"Calculate long-term profitability";
+document.getElementById("p").placeholder = zh?"機率":"Probability";
+document.getElementById("r").placeholder = zh?"獎勵":"Reward";
+document.getElementById("c").placeholder = zh?"花費":"Cost";
+document.getElementById("pSmall").innerText = zh?"數值介於 0 到 1":"Value between 0 and 1";
+document.getElementById("rSmall").innerText = zh?"可能獲得的金額":"Amount won";
+document.getElementById("cSmall").innerText = zh?"投入成本":"Initial investment";
+document.getElementById("btn").innerText = zh?"計算期望值":"Calculate Expected Value";
 }
 
 function calc(){
-let p=parseFloat(p.value);
-let r=parseFloat(r.value);
-let c=parseFloat(c.value);
+let p = parseFloat(document.getElementById("p").value);
+let r = parseFloat(document.getElementById("r").value);
+let c = parseFloat(document.getElementById("c").value);
+let result = document.getElementById("result");
 
 if(isNaN(p)||isNaN(r)||isNaN(c)){
-result.innerText=zh?"請填完整數字":"Please enter all values";
+result.innerText = zh?"請填完整數字":"Please enter all values";
 result.style.color="#d4d4d4";
 return;
 }
 
-let ev=p*r-c;
-result.innerText=(zh?"期望值 = ":"Expected Value = ")+ev;
+let ev = p*r - c;
+
+result.innerText = (zh?"期望值 = ":"Expected Value = ") + ev;
 
 if(ev>0){
 result.style.color="#22c55e";
