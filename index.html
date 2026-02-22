@@ -9,88 +9,61 @@
 
 body{
 font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",sans-serif;
-background:#0c0c0c;
+background:linear-gradient(180deg,#0e0e0e,#141414);
 color:white;
 display:flex;
 flex-direction:column;
 align-items:center;
-padding:110px 20px;
+padding:100px 20px;
 overflow-x:hidden;
 }
 
-/* subtle background glow */
-body::before{
-content:"";
-position:fixed;
-width:700px;
-height:700px;
-background:radial-gradient(circle,#ffffff15,transparent 65%);
-top:-250px;
-left:-250px;
-z-index:-1;
-}
-
-body::after{
-content:"";
-position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle,#ffffff10,transparent 65%);
-bottom:-200px;
-right:-200px;
-z-index:-1;
-}
-
-/* badge */
+/* ===== badge ===== */
 .badge{
-background:rgba(255,255,255,.06);
+background:rgba(255,255,255,.05);
 padding:6px 16px;
 border-radius:999px;
 font-size:12px;
 letter-spacing:.4px;
-margin-bottom:32px;
-color:#d1d5db;
-backdrop-filter:blur(12px);
+margin-bottom:30px;
+color:#cfcfcf;
 }
 
-/* hero */
+/* ===== hero ===== */
 .hero{
 text-align:center;
-max-width:760px;
-margin-bottom:70px;
+max-width:720px;
+margin-bottom:60px;
 }
 
 .hero h1{
-font-size:64px;
+font-size:60px;
 line-height:1.02;
 font-weight:700;
-letter-spacing:-1.5px;
-background:linear-gradient(90deg,#ffffff 0%,#d4d4d4 45%,#737373 100%);
+letter-spacing:-1.2px;
+background:linear-gradient(90deg,#ffffff,#bfbfbf 60%,#6b6b6b);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-margin-top:24px;
-font-size:18px;
-color:#a3a3a3;
+margin-top:22px;
+font-size:17px;
+color:#9ca3af;
 line-height:1.6;
 }
 
-/* card */
+/* ===== card ===== */
 .card{
-background:rgba(255,255,255,.04);
-backdrop-filter:blur(30px);
-padding:40px;
-border-radius:30px;
-box-shadow:
-0 40px 120px rgba(0,0,0,.6),
-inset 0 1px 0 rgba(255,255,255,.05);
+background:#1a1a1a;
+padding:38px;
+border-radius:28px;
+box-shadow:0 30px 80px rgba(0,0,0,.7);
 width:100%;
 max-width:560px;
 }
 
-/* header */
+/* ===== header ===== */
 .card-header{
 display:flex;
 align-items:center;
@@ -101,7 +74,7 @@ margin-bottom:28px;
 .icon{
 width:40px;
 height:40px;
-background:rgba(255,255,255,.06);
+background:#242424;
 border-radius:14px;
 display:flex;
 align-items:center;
@@ -115,11 +88,11 @@ font-weight:600;
 
 .card-sub{
 font-size:13px;
-color:#737373;
+color:#6b7280;
 margin-top:3px;
 }
 
-/* grid */
+/* ===== grid ===== */
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -134,14 +107,14 @@ gap:16px;
 .grid{grid-template-columns:1fr;}
 }
 
-/* inputs */
+/* ===== inputs ===== */
 input{
 width:100%;
 padding:13px;
 border-radius:16px;
-border:1px solid rgba(255,255,255,.08);
+border:1px solid #2a2a2a;
 font-size:14px;
-background:rgba(255,255,255,.03);
+background:#121212;
 color:white;
 transition:.2s;
 }
@@ -149,33 +122,38 @@ transition:.2s;
 input:focus{
 outline:none;
 border-color:#9ca3af;
-background:rgba(255,255,255,.06);
+background:#161616;
 }
 
 .small{
 font-size:11px;
-color:#737373;
+color:#6b7280;
 margin-top:6px;
 }
 
-/* button */
+/* ===== BUTTON (強化重點) ===== */
 button{
-margin-top:30px;
+margin-top:32px;
 width:100%;
-padding:16px;
+padding:17px;
 border:none;
-border-radius:18px;
-background:linear-gradient(90deg,#111111,#2a2a2a);
-color:#fff;
-font-size:14px;
-letter-spacing:.3px;
+border-radius:20px;
+background:linear-gradient(180deg,#ffffff,#d4d4d4);
+color:#000;
+font-size:15px;
+font-weight:600;
 cursor:pointer;
 transition:.2s ease;
+box-shadow:
+0 8px 30px rgba(255,255,255,.15),
+inset 0 -3px 6px rgba(0,0,0,.2);
 }
 
 button:hover{
 transform:translateY(-2px);
-box-shadow:0 12px 40px rgba(0,0,0,.6);
+box-shadow:
+0 12px 40px rgba(255,255,255,.25),
+inset 0 -3px 6px rgba(0,0,0,.25);
 }
 
 .result{
@@ -185,7 +163,6 @@ font-size:18px;
 transition:.3s;
 }
 
-/* language switch */
 .lang{
 position:fixed;
 top:28px;
@@ -201,7 +178,7 @@ cursor:pointer;
 
 <div class="lang" onclick="toggleLang()">中文 / English</div>
 
-<div class="badge">Advanced Expected Value Engine</div>
+<div class="badge" id="badge">Advanced Expected Value Engine</div>
 
 <div class="hero">
 <h1 id="title">Make calculated decisions, every time.</h1>
@@ -222,26 +199,26 @@ Know whether you'll profit or lose before taking the risk.
 </div>
 <div>
 <div class="card-title" id="cardTitle">Expected Value</div>
-<div class="card-sub" id="cardSub">Calculate the long-term profitability of a bet</div>
+<div class="card-sub" id="cardSub">Calculate long-term profitability</div>
 </div>
 </div>
 
 <div class="grid">
 <div>
 <input type="number" id="p" placeholder="Probability">
-<div class="small">Value between 0 and 1</div>
+<div class="small" id="pSmall">Value between 0 and 1</div>
 </div>
 <div>
 <input type="number" id="r" placeholder="Reward">
-<div class="small">Amount won</div>
+<div class="small" id="rSmall">Amount won</div>
 </div>
 <div>
 <input type="number" id="c" placeholder="Cost">
-<div class="small">Initial investment</div>
+<div class="small" id="cSmall">Initial investment</div>
 </div>
 </div>
 
-<button onclick="calc()" id="btn">Calculate Expected Value →</button>
+<button onclick="calc()" id="btn">Calculate Expected Value</button>
 
 <div class="result" id="result"></div>
 
@@ -254,17 +231,31 @@ function toggleLang(){
 zh=!zh;
 
 if(zh){
+badge.innerText="進階期望值計算引擎";
 title.innerText="每一次都做出精準決策";
-subtitle.innerText="計算任何基於機率的情境的長期結果，在承擔風險前先知道是賺還是賠。";
+subtitle.innerText="計算任何基於機率的情境長期結果，在承擔風險前先知道是賺還是賠。";
 cardTitle.innerText="期望值";
-cardSub.innerText="計算投注的長期獲利能力";
-btn.innerText="計算期望值 →";
+cardSub.innerText="計算長期獲利能力";
+p.placeholder="機率";
+r.placeholder="獎勵";
+c.placeholder="花費";
+pSmall.innerText="數值介於 0 到 1";
+rSmall.innerText="可能獲得的金額";
+cSmall.innerText="投入成本";
+btn.innerText="計算期望值";
 }else{
+badge.innerText="Advanced Expected Value Engine";
 title.innerText="Make calculated decisions, every time.";
-subtitle.innerText="Calculate the exact long-term outcome of any probability-based scenario. Know whether you'll profit or lose before taking the risk.";
+subtitle.innerText="Calculate the exact long-term outcome of any probability-based scenario.";
 cardTitle.innerText="Expected Value";
-cardSub.innerText="Calculate the long-term profitability of a bet";
-btn.innerText="Calculate Expected Value →";
+cardSub.innerText="Calculate long-term profitability";
+p.placeholder="Probability";
+r.placeholder="Reward";
+c.placeholder="Cost";
+pSmall.innerText="Value between 0 and 1";
+rSmall.innerText="Amount won";
+cSmall.innerText="Initial investment";
+btn.innerText="Calculate Expected Value";
 }
 }
 
