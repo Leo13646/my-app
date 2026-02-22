@@ -2,90 +2,127 @@
 <html lang="zh">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>期望值計算器 | Expected Value</title>
+<title>Expected Value</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-margin:0;
-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-background:#f5f7fb;
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+background:#f9fafc;
+color:#111;
 display:flex;
-justify-content:center;
+flex-direction:column;
 align-items:center;
-height:100vh;
+padding:60px 20px;
+}
+
+.hero{
+text-align:center;
+max-width:700px;
+margin-bottom:60px;
+}
+
+.hero h1{
+font-size:48px;
+font-weight:700;
+line-height:1.2;
+}
+
+.hero span{
+background:linear-gradient(90deg,#4f46e5,#2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+margin-top:20px;
+color:#555;
+font-size:18px;
 }
 
 .card{
-background:white;
+background:#fff;
 padding:40px;
 border-radius:20px;
-box-shadow:0 20px 50px rgba(0,0,0,0.1);
-width:90%;
-max-width:420px;
-text-align:center;
+box-shadow:0 30px 80px rgba(0,0,0,0.08);
+width:100%;
+max-width:500px;
 }
 
-h1{
-font-size:26px;
-margin-bottom:5px;
+.card h2{
+font-size:20px;
+margin-bottom:20px;
 }
 
-.sub{
-color:#666;
-font-size:14px;
-margin-bottom:25px;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:15px;
 }
 
 input{
-width:100%;
 padding:12px;
-margin:10px 0;
 border-radius:10px;
 border:1px solid #ddd;
 font-size:16px;
+width:100%;
 }
 
 button{
+margin-top:25px;
 width:100%;
 padding:14px;
 border:none;
 border-radius:12px;
-background:linear-gradient(135deg,#4f46e5,#2563eb);
-color:white;
+background:#111827;
+color:#fff;
 font-size:16px;
 cursor:pointer;
-margin-top:10px;
 }
 
 .result{
 margin-top:20px;
-font-weight:bold;
 font-size:18px;
+font-weight:600;
 }
 
 .lang{
-margin-bottom:15px;
-font-size:13px;
+position:fixed;
+top:20px;
+right:20px;
 cursor:pointer;
-color:#2563eb;
+color:#4f46e5;
+font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-
 <div class="lang" onclick="toggleLang()">中文 / English</div>
 
-<h1 id="title">期望值計算器</h1>
-<div class="sub" id="subtitle">計算長期是否會賺錢</div>
+<div class="hero">
+<h1 id="title">
+Make calculated <br>
+<span>decisions, every time.</span>
+</h1>
+<p id="subtitle">
+Calculate the long-term outcome before taking the risk.
+</p>
+</div>
 
-<input type="number" id="p" placeholder="機率 (例如 0.3)">
-<input type="number" id="r" placeholder="獎金">
-<input type="number" id="c" placeholder="成本">
+<div class="card">
 
-<button onclick="calculate()" id="btn">計算期望值</button>
+<h2 id="cardTitle">Expected Value</h2>
+
+<div class="grid">
+<input type="number" id="p" placeholder="Probability">
+<input type="number" id="r" placeholder="Reward">
+<input type="number" id="c" placeholder="Cost">
+</div>
+
+<button onclick="calc()" id="btn">Calculate</button>
 
 <div class="result" id="result"></div>
 
@@ -93,48 +130,45 @@ color:#2563eb;
 
 <script>
 
-let isChinese = true;
+let zh=false;
 
 function toggleLang(){
-isChinese = !isChinese;
+zh=!zh;
 
-if(isChinese){
-document.getElementById("title").innerText="期望值計算器";
-document.getElementById("subtitle").innerText="計算長期是否會賺錢";
-document.getElementById("p").placeholder="機率 (例如 0.3)";
+if(zh){
+document.getElementById("title").innerHTML="每一次都做出<br><span>精準決策</span>";
+document.getElementById("subtitle").innerText="在承擔風險前，先計算長期結果。";
+document.getElementById("cardTitle").innerText="期望值";
+document.getElementById("btn").innerText="計算";
+document.getElementById("p").placeholder="機率 (0~1)";
 document.getElementById("r").placeholder="獎金";
 document.getElementById("c").placeholder="成本";
-document.getElementById("btn").innerText="計算期望值";
-}
-else{
-document.getElementById("title").innerText="Expected Value Calculator";
-document.getElementById("subtitle").innerText="Calculate long-term profitability";
-document.getElementById("p").placeholder="Probability (e.g. 0.3)";
+}else{
+document.getElementById("title").innerHTML="Make calculated <br><span>decisions, every time.</span>";
+document.getElementById("subtitle").innerText="Calculate the long-term outcome before taking the risk.";
+document.getElementById("cardTitle").innerText="Expected Value";
+document.getElementById("btn").innerText="Calculate";
+document.getElementById("p").placeholder="Probability";
 document.getElementById("r").placeholder="Reward";
 document.getElementById("c").placeholder="Cost";
-document.getElementById("btn").innerText="Calculate";
 }
 }
 
-function calculate(){
+function calc(){
 let p=parseFloat(document.getElementById("p").value);
 let r=parseFloat(document.getElementById("r").value);
 let c=parseFloat(document.getElementById("c").value);
 
 if(isNaN(p)||isNaN(r)||isNaN(c)){
-document.getElementById("result").innerText=isChinese?"請填完整數字":"Please enter all values";
+document.getElementById("result").innerText=zh?"請填完整數字":"Please enter all values";
 return;
 }
 
 let ev=p*r-c;
 
-if(isChinese){
-document.getElementById("result").innerText="期望值 = "+ev;
-}else{
-document.getElementById("result").innerText="Expected Value = "+ev;
+document.getElementById("result").innerText=
+(zh?"期望值 = ":"Expected Value = ")+ev;
 }
-}
-
 </script>
 
 </body>
