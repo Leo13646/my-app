@@ -8,103 +8,86 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-font-family:-apple-system,BlinkMacSystemFont,"Inter","SF Pro Display",sans-serif;
-background:#0f172a;
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",sans-serif;
+background:#0c0c0c;
 color:white;
 display:flex;
 flex-direction:column;
 align-items:center;
-padding:90px 20px;
+padding:110px 20px;
 overflow-x:hidden;
 }
 
-/* ==== animated background glow ==== */
+/* subtle background glow */
 body::before{
 content:"";
 position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle,#ffffff22,transparent 60%);
-top:-200px;
-left:-200px;
+width:700px;
+height:700px;
+background:radial-gradient(circle,#ffffff15,transparent 65%);
+top:-250px;
+left:-250px;
 z-index:-1;
-animation:float 8s ease-in-out infinite;
 }
 
 body::after{
 content:"";
 position:fixed;
-width:500px;
-height:500px;
-background:radial-gradient(circle,#ffffff15,transparent 60%);
+width:600px;
+height:600px;
+background:radial-gradient(circle,#ffffff10,transparent 65%);
 bottom:-200px;
 right:-200px;
 z-index:-1;
-animation:float 10s ease-in-out infinite reverse;
-}
-
-@keyframes float{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(30px);}
 }
 
 /* badge */
 .badge{
-background:rgba(255,255,255,.08);
-padding:6px 14px;
+background:rgba(255,255,255,.06);
+padding:6px 16px;
 border-radius:999px;
 font-size:12px;
-letter-spacing:.3px;
-margin-bottom:28px;
-backdrop-filter:blur(10px);
+letter-spacing:.4px;
+margin-bottom:32px;
+color:#d1d5db;
+backdrop-filter:blur(12px);
 }
 
 /* hero */
 .hero{
 text-align:center;
 max-width:760px;
-margin-bottom:60px;
-animation:fadeIn 1s ease forwards;
+margin-bottom:70px;
 }
 
 .hero h1{
-font-size:60px;
-line-height:1.05;
+font-size:64px;
+line-height:1.02;
 font-weight:700;
-letter-spacing:-1px;
-background:linear-gradient(90deg,#ffffff,#60a5fa 70%);
+letter-spacing:-1.5px;
+background:linear-gradient(90deg,#ffffff 0%,#d4d4d4 45%,#737373 100%);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-margin-top:22px;
+margin-top:24px;
 font-size:18px;
-color:#cbd5e1;
+color:#a3a3a3;
 line-height:1.6;
 }
 
 /* card */
 .card{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(20px);
-padding:38px;
-border-radius:28px;
-box-shadow:0 40px 100px rgba(0,0,0,.3);
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(30px);
+padding:40px;
+border-radius:30px;
+box-shadow:
+0 40px 120px rgba(0,0,0,.6),
+inset 0 1px 0 rgba(255,255,255,.05);
 width:100%;
-max-width:580px;
-animation:fadeUp 1s ease forwards;
-}
-
-/* animations */
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(-10px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(30px);}
-to{opacity:1;transform:translateY(0);}
+max-width:560px;
 }
 
 /* header */
@@ -112,14 +95,14 @@ to{opacity:1;transform:translateY(0);}
 display:flex;
 align-items:center;
 gap:14px;
-margin-bottom:24px;
+margin-bottom:28px;
 }
 
 .icon{
-width:38px;
-height:38px;
-background:rgba(255,255,255,.1);
-border-radius:12px;
+width:40px;
+height:40px;
+background:rgba(255,255,255,.06);
+border-radius:14px;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -132,11 +115,11 @@ font-weight:600;
 
 .card-sub{
 font-size:13px;
-color:#94a3b8;
+color:#737373;
 margin-top:3px;
 }
 
-/* inputs */
+/* grid */
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -151,62 +134,64 @@ gap:16px;
 .grid{grid-template-columns:1fr;}
 }
 
+/* inputs */
 input{
 width:100%;
 padding:13px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,.15);
+border-radius:16px;
+border:1px solid rgba(255,255,255,.08);
 font-size:14px;
-background:rgba(255,255,255,.08);
+background:rgba(255,255,255,.03);
 color:white;
 transition:.2s;
 }
 
 input:focus{
 outline:none;
-border-color:#60a5fa;
-background:rgba(255,255,255,.12);
+border-color:#9ca3af;
+background:rgba(255,255,255,.06);
 }
 
 .small{
 font-size:11px;
-color:#94a3b8;
+color:#737373;
 margin-top:6px;
 }
 
 /* button */
 button{
-margin-top:28px;
+margin-top:30px;
 width:100%;
-padding:15px;
+padding:16px;
 border:none;
-border-radius:16px;
-background:linear-gradient(90deg,#2563eb,#6366f1);
+border-radius:18px;
+background:linear-gradient(90deg,#111111,#2a2a2a);
 color:#fff;
 font-size:14px;
+letter-spacing:.3px;
 cursor:pointer;
 transition:.2s ease;
 }
 
 button:hover{
 transform:translateY(-2px);
-box-shadow:0 10px 30px rgba(99,102,241,.4);
+box-shadow:0 12px 40px rgba(0,0,0,.6);
 }
 
 .result{
-margin-top:20px;
+margin-top:22px;
 font-weight:600;
 font-size:18px;
 transition:.3s;
 }
 
-/* lang */
+/* language switch */
 .lang{
 position:fixed;
-top:25px;
+top:28px;
 right:30px;
 font-size:13px;
-color:#60a5fa;
+color:#9ca3af;
 cursor:pointer;
 }
 </style>
@@ -230,7 +215,7 @@ Know whether you'll profit or lose before taking the risk.
 
 <div class="card-header">
 <div class="icon">
-<svg width="20" height="20" fill="none" stroke="#cbd5e1" stroke-width="1.5" viewBox="0 0 24 24">
+<svg width="20" height="20" fill="none" stroke="#cfcfcf" stroke-width="1.5" viewBox="0 0 24 24">
 <rect x="4" y="3" width="16" height="18" rx="2"/>
 <path d="M8 7h8M8 11h8M8 15h4"/>
 </svg>
@@ -269,17 +254,17 @@ function toggleLang(){
 zh=!zh;
 
 if(zh){
-document.getElementById("title").innerText="每一次都做出精準決策";
-document.getElementById("subtitle").innerText="計算任何基於機率的情境的長期結果，在承擔風險前先知道是賺還是賠。";
-document.getElementById("cardTitle").innerText="期望值";
-document.getElementById("cardSub").innerText="計算投注的長期獲利能力";
-document.getElementById("btn").innerText="計算期望值 →";
+title.innerText="每一次都做出精準決策";
+subtitle.innerText="計算任何基於機率的情境的長期結果，在承擔風險前先知道是賺還是賠。";
+cardTitle.innerText="期望值";
+cardSub.innerText="計算投注的長期獲利能力";
+btn.innerText="計算期望值 →";
 }else{
-document.getElementById("title").innerText="Make calculated decisions, every time.";
-document.getElementById("subtitle").innerText="Calculate the exact long-term outcome of any probability-based scenario. Know whether you'll profit or lose before taking the risk.";
-document.getElementById("cardTitle").innerText="Expected Value";
-document.getElementById("cardSub").innerText="Calculate the long-term profitability of a bet";
-document.getElementById("btn").innerText="Calculate Expected Value →";
+title.innerText="Make calculated decisions, every time.";
+subtitle.innerText="Calculate the exact long-term outcome of any probability-based scenario. Know whether you'll profit or lose before taking the risk.";
+cardTitle.innerText="Expected Value";
+cardSub.innerText="Calculate the long-term profitability of a bet";
+btn.innerText="Calculate Expected Value →";
 }
 }
 
@@ -289,13 +274,12 @@ let r=parseFloat(document.getElementById("r").value);
 let c=parseFloat(document.getElementById("c").value);
 
 if(isNaN(p)||isNaN(r)||isNaN(c)){
-document.getElementById("result").innerText=zh?"請填完整數字":"Please enter all values";
+result.innerText=zh?"請填完整數字":"Please enter all values";
+result.style.color="#d4d4d4";
 return;
 }
 
 let ev=p*r-c;
-let result=document.getElementById("result");
-
 result.innerText=(zh?"期望值 = ":"Expected Value = ")+ev;
 
 if(ev>0){
