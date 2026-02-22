@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>期望值計算器</title>
+</head>
+<body style="text-align:center;font-family:Arial;padding:30px;">
+
+<h2>期望值計算器</h2>
+
+<p>機率 (例如 0.3)</p>
+<input type="number" id="p"><br><br>
+
+<p>獎金</p>
+<input type="number" id="r"><br><br>
+
+<p>成本</p>
+<input type="number" id="c"><br><br>
+
+<button onclick="calc()">計算</button>
+
+<h3 id="result"></h3>
+
+<script>
+function calc(){
+let p = parseFloat(document.getElementById("p").value);
+let r = parseFloat(document.getElementById("r").value);
+let c = parseFloat(document.getElementById("c").value);
+
+if(isNaN(p)||isNaN(r)||isNaN(c)){
+document.getElementById("result").innerHTML="請填完整數字";
+return;
+}
+
+let ev = p*r-c;
+
+document.getElementById("result").innerHTML="期望值 = "+ev;
+}
+</script>
+
+</body>
+</html>
