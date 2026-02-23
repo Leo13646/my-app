@@ -4,35 +4,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Decision Engine Pro</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
-background:linear-gradient(180deg,#050505,#0f0f0f 40%,#070707);
+background:linear-gradient(180deg,#050505,#0e0e0e);
 color:#e5e7eb;
 min-height:100vh;
 display:flex;
 flex-direction:column;
 align-items:center;
-padding:90px 20px;
+padding:80px 20px;
 }
 
+/* Language */
 .lang{
 position:absolute;
-top:28px;
-right:40px;
+top:25px;
+right:35px;
 font-size:13px;
 color:#888;
 cursor:pointer;
 }
 
+/* HERO */
 .hero{
 text-align:center;
-max-width:900px;
-margin-bottom:55px;
+margin-bottom:50px;
 }
 
 .badge{
@@ -40,36 +41,47 @@ display:inline-block;
 padding:6px 16px;
 border-radius:999px;
 font-size:11px;
-letter-spacing:1px;
 background:#111;
 border:1px solid #222;
 color:#aaa;
-margin-bottom:20px;
+margin-bottom:18px;
 }
 
 .hero h1{
-font-size:60px;
+font-size:56px;
 font-weight:700;
-line-height:1.05;
-background:linear-gradient(90deg,#ffffff,#d4d4d4,#888);
+background:linear-gradient(90deg,#fff,#bbb,#777);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-margin-top:14px;
-color:#8a8a8a;
-font-size:15px;
+margin-top:12px;
+color:#888;
+font-size:14px;
 }
 
+/* CARD */
 .card{
 background:#0c0c0c;
 border:1px solid #1f1f1f;
-padding:32px;
-border-radius:22px;
+padding:28px;
+border-radius:20px;
 width:100%;
 max-width:650px;
-box-shadow:0 40px 120px rgba(0,0,0,.9);
+}
+
+/* ICON */
+.icon{
+width:34px;
+height:34px;
+background:#151515;
+border:1px solid #222;
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:15px;
 }
 
 .label{
@@ -80,24 +92,19 @@ margin-bottom:6px;
 
 input{
 width:100%;
-padding:12px;
-border-radius:12px;
+padding:10px;
+border-radius:10px;
 border:1px solid #222;
 background:#111;
-color:#fff;
-margin-bottom:14px;
-font-size:14px;
+color:white;
+margin-bottom:12px;
 }
 
-input:focus{
-outline:none;
-border:1px solid #444;
-}
-
+/* RESULTS */
 .result{
 display:flex;
 justify-content:space-between;
-padding:8px 0;
+padding:6px 0;
 font-size:13px;
 border-bottom:1px solid #1a1a1a;
 }
@@ -108,11 +115,12 @@ border-bottom:1px solid #1a1a1a;
 .yellow{color:#facc15;}
 .gray{color:#9ca3af;}
 
+/* BUTTON */
 button{
-margin-top:20px;
+margin-top:18px;
 width:100%;
-padding:14px;
-border-radius:12px;
+padding:12px;
+border-radius:10px;
 border:none;
 background:#fff;
 color:#000;
@@ -120,11 +128,8 @@ font-weight:600;
 cursor:pointer;
 }
 
-.chart-container{
-margin-top:30px;
-}
-
 canvas{
+margin-top:25px;
 background:#111;
 border-radius:12px;
 }
@@ -136,32 +141,41 @@ border-radius:12px;
 <div class="lang" onclick="toggleLang()">中文 / English</div>
 
 <div class="hero">
-<div class="badge">Advanced Expected Value Engine</div>
+<div class="badge" id="badge">Advanced Expected Value Engine</div>
 <h1 id="title">Make calculated decisions.</h1>
 <p id="subtitle">Evaluate long-term outcomes before risking capital.</p>
 </div>
 
 <div class="card">
 
+<div class="icon">
+<svg width="18" height="18" stroke="#aaa" fill="none" viewBox="0 0 24 24">
+<rect x="4" y="3" width="16" height="18" rx="2"/>
+<line x1="8" y1="8" x2="16" y2="8"/>
+<line x1="8" y1="12" x2="12" y2="12"/>
+<line x1="8" y1="16" x2="12" y2="16"/>
+</svg>
+</div>
+
 <div class="label" id="pLabel">Probability (0~1)</div>
-<input type="number" id="p" step="0.01" value="0.5">
+<input type="number" id="p" step="0.01">
 
 <div class="label" id="rLabel">Reward</div>
-<input type="number" id="r" value="100">
+<input type="number" id="r">
 
 <div class="label" id="cLabel">Cost</div>
-<input type="number" id="c" value="50">
+<input type="number" id="c">
 
 <div class="result"><span id="evText">Expected Value</span><span class="value gray" id="ev">-</span></div>
 <div class="result"><span>ROI</span><span class="value gray" id="roi">-</span></div>
-<div class="result"><span>Kelly %</span><span class="value gray" id="kelly">-</span></div>
+<div class="result"><span id="beText">Break-even</span><span class="value gray" id="be">-</span></div>
+<div class="result"><span id="kellyText">Kelly %</span><span class="value gray" id="kelly">-</span></div>
+<div class="result"><span id="worthText">Worth</span><span class="value gray" id="worth">-</span></div>
 <div class="result"><span id="riskText">Risk Level</span><span class="value gray" id="risk">-</span></div>
 
 <button onclick="simulate()" id="simBtn">Simulate 100 Runs</button>
 
-<div class="chart-container">
-<canvas id="capitalChart"></canvas>
-</div>
+<canvas id="chart" height="100"></canvas>
 
 </div>
 
@@ -169,39 +183,54 @@ border-radius:12px;
 let zh=false;
 let chart;
 
+/* Language */
 function toggleLang(){
 zh=!zh;
+badge.innerText=zh?"進階期望值引擎":"Advanced Expected Value Engine";
 title.innerText=zh?"做出精準決策":"Make calculated decisions.";
 subtitle.innerText=zh?"在投入資金前先評估長期結果":"Evaluate long-term outcomes before risking capital.";
 pLabel.innerText=zh?"機率 (0~1)":"Probability (0~1)";
 rLabel.innerText=zh?"獎勵":"Reward";
 cLabel.innerText=zh?"成本":"Cost";
 evText.innerText=zh?"期望值":"Expected Value";
+beText.innerText=zh?"損益平衡":"Break-even";
+kellyText.innerText=zh?"Kelly 比例":"Kelly %";
+worthText.innerText=zh?"價值判斷":"Worth";
 riskText.innerText=zh?"風險等級":"Risk Level";
 simBtn.innerText=zh?"模擬 100 次":"Simulate 100 Runs";
 }
 
+/* Auto Calculate */
 document.querySelectorAll("input").forEach(i=>i.addEventListener("input",calculate));
 
 function calculate(){
 let p=parseFloat(p.value);
 let r=parseFloat(r.value);
 let c=parseFloat(c.value);
-if(isNaN(p)||isNaN(r)||isNaN(c)) return;
+if(isNaN(p)||isNaN(r)||isNaN(c)){reset();return;}
 
 let ev=p*r-c;
 let roi=(ev/c)*100;
+let be=c/r;
 let b=(r-c)/c;
 let k=(p*(b+1)-1)/b*100;
 
 update("ev",ev);
 update("roi",roi.toFixed(2)+"%");
+update("be",be.toFixed(3));
 update("kelly",k.toFixed(2)+"%");
 
+/* Worth */
+if(ev>0 && roi>20) updateText("worth","Strong Positive EV","green");
+else if(ev>0) updateText("worth","Slight Edge","yellow");
+else updateText("worth","Negative EV","red");
+
+/* Risk */
 if(ev>0) updateText("risk","Low","green");
 else updateText("risk","High","red");
 }
 
+/* Simulation */
 function simulate(){
 let p=parseFloat(p.value);
 let r=parseFloat(r.value);
@@ -209,35 +238,35 @@ let c=parseFloat(c.value);
 if(isNaN(p)||isNaN(r)||isNaN(c)) return;
 
 let capital=0;
-let data=[0];
 let peak=0;
 let maxDD=0;
+let data=[0];
 
 for(let i=0;i<100;i++){
 if(Math.random()<p) capital+=r-c;
 else capital-=c;
 
-peak=Math.max(peak,capital);
-maxDD=Math.min(maxDD,capital-peak);
+if(capital>peak) peak=capital;
+let dd=peak-capital;
+if(dd>maxDD) maxDD=dd;
+
 data.push(capital);
 }
 
 drawChart(data);
-
-if(maxDD<-c*5) updateText("risk","High","red");
-else if(maxDD<-c*2) updateText("risk","Medium","yellow");
-else updateText("risk","Low","green");
 }
 
+/* Chart */
 function drawChart(data){
 if(chart) chart.destroy();
-chart=new Chart(document.getElementById("capitalChart"),{
-type:'line',
+
+chart=new Chart(document.getElementById("chart"),{
+type:"line",
 data:{
 labels:data.map((_,i)=>i),
 datasets:[{
 data:data,
-borderColor:'#22c55e',
+borderColor:"#22c55e",
 borderWidth:2,
 tension:0.25
 }]
@@ -251,6 +280,9 @@ y:{grid:{color:"#222"}}
 }
 });
 }
+
+/* Initial flat line */
+drawChart(Array(101).fill(0));
 
 function update(id,val){
 let el=document.getElementById(id);
@@ -267,8 +299,12 @@ el.innerText=text;
 el.className="value "+color;
 }
 
-calculate();
-simulate();   // 進頁面就有基本曲線
+function reset(){
+["ev","roi","be","kelly","worth","risk"].forEach(id=>{
+document.getElementById(id).innerText="-";
+document.getElementById(id).className="value gray";
+});
+}
 </script>
 
 </body>
