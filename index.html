@@ -30,15 +30,7 @@ color:#9ca3af;
 font-size:14px;
 }
 
-.badge{
-background:rgba(255,255,255,.05);
-padding:6px 18px;
-border-radius:999px;
-font-size:12px;
-margin-bottom:25px;
-color:#cfcfcf;
-}
-
+/* HERO */
 .hero{
 text-align:center;
 max-width:800px;
@@ -46,7 +38,7 @@ margin-bottom:40px;
 }
 
 .hero h1{
-font-size:54px;
+font-size:56px;
 font-weight:700;
 background:linear-gradient(90deg,#fff,#cfcfcf,#6b7280);
 -webkit-background-clip:text;
@@ -58,14 +50,33 @@ margin-top:15px;
 color:#9ca3af;
 }
 
+/* CARD */
 .card{
 background:rgba(255,255,255,.05);
 backdrop-filter:blur(25px);
-padding:28px;
+padding:30px;
 border-radius:22px;
 width:100%;
 max-width:560px;
 box-shadow:0 40px 100px rgba(0,0,0,.6);
+}
+
+.header{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:20px;
+font-weight:600;
+}
+
+.icon{
+width:32px;
+height:32px;
+background:rgba(255,255,255,.08);
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .label{
@@ -84,12 +95,6 @@ color:white;
 margin-bottom:12px;
 }
 
-input:focus{
-outline:none;
-border-color:#bfbfbf;
-background:rgba(255,255,255,.06);
-}
-
 .result{
 display:flex;
 justify-content:space-between;
@@ -106,7 +111,7 @@ font-size:13px;
 .gray{color:#e5e7eb;}
 
 button{
-margin-top:18px;
+margin-top:15px;
 width:100%;
 padding:10px;
 border-radius:12px;
@@ -116,6 +121,12 @@ border:none;
 cursor:pointer;
 font-weight:600;
 }
+
+.sim-box{
+margin-top:15px;
+font-size:13px;
+color:#9ca3af;
+}
 </style>
 </head>
 
@@ -123,14 +134,17 @@ font-weight:600;
 
 <div class="lang" onclick="toggleLang()">中文 / English</div>
 
-<div class="badge" id="badge">Advanced Decision Engine</div>
-
 <div class="hero">
 <h1 id="title">Make calculated decisions.</h1>
 <p id="subtitle">Evaluate risk before committing capital.</p>
 </div>
 
 <div class="card">
+
+<div class="header">
+<div class="icon">🧮</div>
+<span id="cardTitle">Expected Value Calculator</span>
+</div>
 
 <div class="label" id="pLabel">Probability (0~1)</div>
 <input type="number" id="p" step="0.01">
@@ -147,35 +161,34 @@ font-weight:600;
 <div class="result"><span id="kellyText">Kelly %</span><span class="value gray" id="kelly">-</span></div>
 <div class="result"><span id="worthText">Worth</span><span class="value gray" id="worth">-</span></div>
 
-<button onclick="simulate()">Simulate 100 Runs</button>
+<button onclick="simulate()" id="simBtn">Simulate 100 Runs</button>
+
+<div class="sim-box" id="simResult"></div>
 
 </div>
 
 <script>
-
 let zh=false;
 
 function toggleLang(){
 zh=!zh;
 
-document.getElementById("badge").innerText = zh?"進階決策引擎":"Advanced Decision Engine";
 document.getElementById("title").innerText = zh?"做出精準決策":"Make calculated decisions.";
 document.getElementById("subtitle").innerText = zh?"在投入資金前先評估風險":"Evaluate risk before committing capital.";
-
+document.getElementById("cardTitle").innerText = zh?"期望值計算器":"Expected Value Calculator";
 document.getElementById("pLabel").innerText = zh?"機率 (0~1)":"Probability (0~1)";
 document.getElementById("rLabel").innerText = zh?"獎勵":"Reward";
 document.getElementById("cLabel").innerText = zh?"成本":"Cost";
-
 document.getElementById("evText").innerText = zh?"期望值":"Expected Value";
 document.getElementById("beText").innerText = zh?"損益平衡":"Break-even";
 document.getElementById("kellyText").innerText = zh?"Kelly 比例":"Kelly %";
 document.getElementById("worthText").innerText = zh?"價值判斷":"Worth";
+document.getElementById("simBtn").innerText = zh?"模擬 100 次":"Simulate 100 Runs";
 }
 
 document.querySelectorAll("input").forEach(i=>i.addEventListener("input",calculate));
 
 function calculate(){
-
 let p=parseFloat(document.getElementById("p").value);
 let r=parseFloat(document.getElementById("r").value);
 let c=parseFloat(document.getElementById("c").value);
@@ -207,7 +220,6 @@ setText("worth",worth,color);
 }
 
 function simulate(){
-
 let p=parseFloat(document.getElementById("p").value);
 let r=parseFloat(document.getElementById("r").value);
 let c=parseFloat(document.getElementById("c").value);
@@ -216,8 +228,6 @@ if(isNaN(p)||isNaN(r)||isNaN(c)) return;
 
 let capital=0;
 let wins=0;
-let peak=0;
-let maxDrawdown=0;
 
 for(let i=0;i<100;i++){
 if(Math.random()<p){
@@ -226,18 +236,12 @@ wins++;
 }else{
 capital-=c;
 }
-
-if(capital>peak) peak=capital;
-let drawdown=peak-capital;
-if(drawdown>maxDrawdown) maxDrawdown=drawdown;
 }
 
-alert(
-"Simulation (100 Runs)\n\n"+
-"Total Profit: "+capital+"\n"+
-"Wins: "+wins+"\n"+
-"Max Drawdown: "+maxDrawdown
-);
+document.getElementById("simResult").innerText =
+(zh?"模擬結果：\n總盈虧: ":"Simulation:\nTotal Profit: ")
++capital+"\n"+
+(zh?"勝場: ":"Wins: ")+wins;
 }
 
 function setValue(id,val){
@@ -262,7 +266,6 @@ document.getElementById(id).innerText="-";
 document.getElementById(id).className="value gray";
 });
 }
-
 </script>
 
 </body>
