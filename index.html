@@ -2,23 +2,29 @@
 <html lang="zh">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Decision Engine Pro</title>
+<title>Decision Engine</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",sans-serif;
-background:
-radial-gradient(circle at 20% 20%, #1c1c1c, transparent 40%),
-radial-gradient(circle at 80% 80%, #181818, transparent 50%),
-linear-gradient(180deg,#0b0b0b 0%, #111111 100%);
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+background:linear-gradient(180deg,#0b0b0b,#111,#0d0d0d);
 color:white;
 display:flex;
 flex-direction:column;
 align-items:center;
 padding:100px 20px;
-min-height:100vh;
+}
+
+/* LANGUAGE SWITCH */
+.lang{
+position:absolute;
+top:30px;
+right:40px;
+color:#aaa;
+cursor:pointer;
+font-size:14px;
 }
 
 /* HERO */
@@ -29,16 +35,17 @@ margin-bottom:60px;
 }
 
 .hero h1{
-font-size:60px;
+font-size:56px;
 font-weight:700;
-letter-spacing:-1.5px;
-background:linear-gradient(90deg,#ffffff,#cfcfcf,#6b7280);
+line-height:1.05;
+letter-spacing:-1px;
+background:linear-gradient(90deg,#fff,#cfcfcf,#6b7280);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 
 .hero p{
-margin-top:20px;
+margin-top:18px;
 color:#9ca3af;
 }
 
@@ -46,38 +53,31 @@ color:#9ca3af;
 .card{
 background:rgba(255,255,255,.05);
 backdrop-filter:blur(30px);
-padding:40px;
+padding:35px;
 border-radius:28px;
+width:100%;
+max-width:520px;
 box-shadow:0 40px 100px rgba(0,0,0,.6);
-width:100%;
-max-width:600px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
+.title{
+display:flex;
+align-items:center;
+gap:10px;
 margin-bottom:20px;
+font-size:18px;
+font-weight:600;
 }
 
-@media(max-width:600px){
-.grid{grid-template-columns:1fr;}
-}
-
-input{
-width:100%;
-padding:14px;
-border-radius:18px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
-color:white;
-font-size:15px;
-}
-
-input:focus{
-outline:none;
-border-color:#bfbfbf;
-background:rgba(255,255,255,.07);
+.icon{
+width:34px;
+height:34px;
+background:rgba(255,255,255,.08);
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:16px;
 }
 
 .label{
@@ -86,26 +86,36 @@ color:#9ca3af;
 margin-bottom:6px;
 }
 
-.results{
-margin-top:25px;
-display:grid;
-gap:14px;
+input{
+width:100%;
+padding:14px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.08);
+background:rgba(255,255,255,.03);
+color:white;
+margin-bottom:18px;
+font-size:15px;
 }
 
-.result-box{
-background:rgba(255,255,255,.04);
-padding:16px;
-border-radius:16px;
+input:focus{
+outline:none;
+border-color:#bfbfbf;
+background:rgba(255,255,255,.06);
+}
+
+/* RESULTS */
+.result{
+margin-top:10px;
 font-size:15px;
 display:flex;
 justify-content:space-between;
+margin-bottom:8px;
 }
 
 .value{
 font-weight:600;
 }
 
-/* positive negative */
 .green{color:#22c55e;}
 .red{color:#ef4444;}
 .gray{color:#e5e7eb;}
@@ -114,114 +124,130 @@ font-weight:600;
 
 <body>
 
+<div class="lang" onclick="toggleLang()">中文 / English</div>
+
 <div class="hero">
-<h1>Decision Engine Pro</h1>
-<p>Expected Value • ROI • Break-even • Kelly Criterion</p>
+<h1 id="heroTitle">Make calculated<br>decisions, every time.</h1>
+<p id="heroSub">Calculate the exact long-term outcome before taking the risk.</p>
 </div>
 
 <div class="card">
 
-<div class="grid">
-<div>
-<div class="label">Probability (0~1)</div>
+<div class="title">
+<div class="icon">⌘</div>
+<span id="cardTitle">Expected Value</span>
+</div>
+
+<div class="label" id="labelP">Probability (0~1)</div>
 <input type="number" id="p" step="0.01">
-</div>
 
-<div>
-<div class="label">Reward</div>
+<div class="label" id="labelR">Reward</div>
 <input type="number" id="r">
-</div>
 
-<div>
-<div class="label">Cost</div>
+<div class="label" id="labelC">Cost</div>
 <input type="number" id="c">
-</div>
 
-<div>
-<div class="label">Total Bankroll (for Kelly)</div>
+<div class="label" id="labelB">Bankroll (for Kelly)</div>
 <input type="number" id="bank">
-</div>
-</div>
 
-<div class="results">
-
-<div class="result-box">
-<span>Expected Value</span>
-<span class="value" id="ev">-</span>
+<div class="result">
+<span id="evText">Expected Value</span>
+<span class="value gray" id="ev">-</span>
 </div>
 
-<div class="result-box">
+<div class="result">
 <span>ROI</span>
-<span class="value" id="roi">-</span>
+<span class="value gray" id="roi">-</span>
 </div>
 
-<div class="result-box">
-<span>Break-even Probability</span>
-<span class="value" id="breakeven">-</span>
+<div class="result">
+<span id="breakText">Break-even Probability</span>
+<span class="value gray" id="break">-</span>
 </div>
 
-<div class="result-box">
-<span>Kelly Suggested Bet</span>
-<span class="value" id="kelly">-</span>
-</div>
-
+<div class="result">
+<span id="kellyText">Kelly Suggested Bet</span>
+<span class="value gray" id="kelly">-</span>
 </div>
 
 </div>
 
 <script>
-const inputs = document.querySelectorAll("input");
-inputs.forEach(input => input.addEventListener("input", calculate));
+let zh=false;
+
+function toggleLang(){
+zh=!zh;
+
+document.getElementById("heroTitle").innerHTML=
+zh?"每一次都做出<br>精準決策":"Make calculated<br>decisions, every time.";
+
+document.getElementById("heroSub").innerText=
+zh?"在承擔風險前，先計算長期結果。":"Calculate the exact long-term outcome before taking the risk.";
+
+document.getElementById("cardTitle").innerText=
+zh?"期望值計算":"Expected Value";
+
+document.getElementById("labelP").innerText=
+zh?"機率 (0~1)":"Probability (0~1)";
+
+document.getElementById("labelR").innerText=
+zh?"獎勵":"Reward";
+
+document.getElementById("labelC").innerText=
+zh?"成本":"Cost";
+
+document.getElementById("labelB").innerText=
+zh?"總資金 (Kelly)":"Bankroll (for Kelly)";
+
+document.getElementById("evText").innerText=
+zh?"期望值":"Expected Value";
+
+document.getElementById("breakText").innerText=
+zh?"損益平衡機率":"Break-even Probability";
+
+document.getElementById("kellyText").innerText=
+zh?"Kelly 建議下注":"Kelly Suggested Bet";
+}
+
+const inputs=document.querySelectorAll("input");
+inputs.forEach(i=>i.addEventListener("input",calculate));
 
 function calculate(){
 
-let p = parseFloat(document.getElementById("p").value);
-let r = parseFloat(document.getElementById("r").value);
-let c = parseFloat(document.getElementById("c").value);
-let bank = parseFloat(document.getElementById("bank").value);
+let p=parseFloat(p.value);
+let r=parseFloat(r.value);
+let c=parseFloat(c.value);
+let bank=parseFloat(bank.value);
 
 if(isNaN(p)||isNaN(r)||isNaN(c)){
 document.getElementById("ev").innerText="-";
 document.getElementById("roi").innerText="-";
-document.getElementById("breakeven").innerText="-";
+document.getElementById("break").innerText="-";
 document.getElementById("kelly").innerText="-";
 return;
 }
 
-/* Expected Value */
-let ev = p*r - c;
+let ev=p*r-c;
+let roi=(ev/c)*100;
+let breakeven=c/r;
+let b=(r-c)/c;
+let kellyFraction=(p*(b+1)-1)/b;
+let kellyAmount=bank?bank*kellyFraction:0;
 
-/* ROI */
-let roi = ((ev/c)*100);
-
-/* Break-even probability */
-let breakeven = c/r;
-
-/* Kelly Criterion */
-let b = (r-c)/c;
-let kellyFraction = ((p*(b+1)-1)/b);
-let kellyAmount = (bank && !isNaN(bank)) ? bank * kellyFraction : 0;
-
-/* Display */
-update("ev", ev);
-update("roi", roi.toFixed(2)+"%");
-update("breakeven", breakeven.toFixed(2));
-update("kelly", bank ? kellyAmount.toFixed(2) : "-");
-
+update("ev",ev);
+update("roi",roi.toFixed(2)+"%");
+update("break",breakeven.toFixed(2));
+update("kelly",bank?kellyAmount.toFixed(2):"-");
 }
 
 function update(id,value){
 let el=document.getElementById(id);
 el.innerText=value;
 
-if(typeof value === "number"){
-if(value>0){
-el.className="value green";
-}else if(value<0){
-el.className="value red";
-}else{
-el.className="value gray";
-}
+if(typeof value==="number"){
+if(value>0){el.className="value green";}
+else if(value<0){el.className="value red";}
+else{el.className="value gray";}
 }
 }
 </script>
