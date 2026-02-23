@@ -10,7 +10,7 @@
 body{
 font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
 background:
-radial-gradient(circle at 20% 20%, #1a1a1a, transparent 40%),
+radial-gradient(circle at 20% 20%, #1c1c1c, transparent 40%),
 radial-gradient(circle at 80% 80%, #181818, transparent 50%),
 linear-gradient(180deg,#0b0b0b,#111);
 color:white;
@@ -21,6 +21,27 @@ padding:90px 20px;
 min-height:100vh;
 }
 
+.lang{
+position:absolute;
+top:30px;
+right:40px;
+cursor:pointer;
+color:#9ca3af;
+font-size:14px;
+}
+
+/* Badge */
+.badge{
+background:rgba(255,255,255,.05);
+padding:6px 18px;
+border-radius:999px;
+font-size:12px;
+letter-spacing:.4px;
+margin-bottom:25px;
+color:#cfcfcf;
+}
+
+/* Hero */
 .hero{
 text-align:center;
 max-width:800px;
@@ -28,8 +49,9 @@ margin-bottom:50px;
 }
 
 .hero h1{
-font-size:54px;
+font-size:56px;
 font-weight:700;
+line-height:1.05;
 background:linear-gradient(90deg,#fff,#cfcfcf,#6b7280);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
@@ -40,26 +62,42 @@ margin-top:18px;
 color:#9ca3af;
 }
 
+/* Card */
 .card{
 background:rgba(255,255,255,.05);
-backdrop-filter:blur(30px);
+backdrop-filter:blur(25px);
 padding:30px;
-border-radius:24px;
+border-radius:22px;
 width:100%;
-max-width:620px;
+max-width:580px;
 box-shadow:0 40px 100px rgba(0,0,0,.6);
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 .section-title{
 font-weight:600;
-margin-bottom:15px;
+margin-bottom:18px;
+font-size:16px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.icon{
+width:28px;
+height:28px;
+background:rgba(255,255,255,.08);
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:14px;
 }
 
 .label{
-font-size:13px;
+font-size:12px;
 color:#9ca3af;
-margin-bottom:5px;
+margin-bottom:4px;
 }
 
 input{
@@ -69,19 +107,26 @@ border-radius:14px;
 border:1px solid rgba(255,255,255,.08);
 background:rgba(255,255,255,.03);
 color:white;
-margin-bottom:15px;
+margin-bottom:12px;
+}
+
+input:focus{
+outline:none;
+border-color:#bfbfbf;
+background:rgba(255,255,255,.06);
 }
 
 .result{
 display:flex;
 justify-content:space-between;
-padding-top:8px;
+padding-top:6px;
 margin-top:6px;
 border-top:1px solid rgba(255,255,255,.05);
-font-size:14px;
+font-size:13px;
 }
 
 .value{font-weight:600;}
+
 .green{color:#22c55e;}
 .red{color:#ef4444;}
 .yellow{color:#facc15;}
@@ -91,73 +136,107 @@ font-size:14px;
 
 <body>
 
+<div class="lang" onclick="toggleLang()">中文 / English</div>
+
+<div class="badge" id="badge">Advanced Decision Engine</div>
+
 <div class="hero">
-<h1>Decision Engine Pro X</h1>
-<p>Investment • Startup • Poker • Risk Evaluation</p>
+<h1 id="title">Make calculated decisions.</h1>
+<p id="subtitle">Compare opportunities before committing capital.</p>
 </div>
 
 <div class="card">
+<div class="section-title">
+<div class="icon">A</div>
+<span id="optATitle">Option A</span>
+</div>
 
-<div class="section-title">Option A</div>
-
-<div class="label">Probability (0~1)</div>
+<div class="label" id="p1Label">Probability (0~1)</div>
 <input type="number" id="p1" step="0.01">
 
-<div class="label">Reward</div>
+<div class="label" id="r1Label">Reward</div>
 <input type="number" id="r1">
 
-<div class="label">Cost</div>
+<div class="label" id="c1Label">Cost</div>
 <input type="number" id="c1">
 
-<div class="result"><span>Expected Value</span><span class="value gray" id="ev1">-</span></div>
+<div class="result"><span id="evText1">Expected Value</span><span class="value gray" id="ev1">-</span></div>
 <div class="result"><span>ROI</span><span class="value gray" id="roi1">-</span></div>
-<div class="result"><span>Break-even</span><span class="value gray" id="be1">-</span></div>
-<div class="result"><span>Kelly %</span><span class="value gray" id="kelly1">-</span></div>
-<div class="result"><span>Worth</span><span class="value gray" id="worth1">-</span></div>
-<div class="result"><span>Risk Level</span><span class="value gray" id="risk1">-</span></div>
-
+<div class="result"><span id="beText1">Break-even</span><span class="value gray" id="be1">-</span></div>
+<div class="result"><span id="kellyText1">Kelly %</span><span class="value gray" id="kelly1">-</span></div>
+<div class="result"><span id="worthText1">Worth</span><span class="value gray" id="worth1">-</span></div>
 </div>
 
 <div class="card">
+<div class="section-title">
+<div class="icon">B</div>
+<span id="optBTitle">Option B</span>
+</div>
 
-<div class="section-title">Option B</div>
-
-<div class="label">Probability (0~1)</div>
+<div class="label" id="p2Label">Probability (0~1)</div>
 <input type="number" id="p2" step="0.01">
 
-<div class="label">Reward</div>
+<div class="label" id="r2Label">Reward</div>
 <input type="number" id="r2">
 
-<div class="label">Cost</div>
+<div class="label" id="c2Label">Cost</div>
 <input type="number" id="c2">
 
-<div class="result"><span>Expected Value</span><span class="value gray" id="ev2">-</span></div>
+<div class="result"><span id="evText2">Expected Value</span><span class="value gray" id="ev2">-</span></div>
 <div class="result"><span>ROI</span><span class="value gray" id="roi2">-</span></div>
-<div class="result"><span>Break-even</span><span class="value gray" id="be2">-</span></div>
-<div class="result"><span>Kelly %</span><span class="value gray" id="kelly2">-</span></div>
-<div class="result"><span>Worth</span><span class="value gray" id="worth2">-</span></div>
-<div class="result"><span>Risk Level</span><span class="value gray" id="risk2">-</span></div>
-
+<div class="result"><span id="beText2">Break-even</span><span class="value gray" id="be2">-</span></div>
+<div class="result"><span id="kellyText2">Kelly %</span><span class="value gray" id="kelly2">-</span></div>
+<div class="result"><span id="worthText2">Worth</span><span class="value gray" id="worth2">-</span></div>
 </div>
 
 <script>
+let zh=false;
+
+function toggleLang(){
+zh=!zh;
+
+document.getElementById("badge").innerText = zh?"進階決策引擎":"Advanced Decision Engine";
+document.getElementById("title").innerText = zh?"做出精準決策":"Make calculated decisions.";
+document.getElementById("subtitle").innerText = zh?"在投入資金前先比較機會":"Compare opportunities before committing capital.";
+
+document.getElementById("optATitle").innerText = zh?"方案 A":"Option A";
+document.getElementById("optBTitle").innerText = zh?"方案 B":"Option B";
+
+document.getElementById("p1Label").innerText = zh?"機率 (0~1)":"Probability (0~1)";
+document.getElementById("r1Label").innerText = zh?"獎勵":"Reward";
+document.getElementById("c1Label").innerText = zh?"成本":"Cost";
+
+document.getElementById("p2Label").innerText = zh?"機率 (0~1)":"Probability (0~1)";
+document.getElementById("r2Label").innerText = zh?"獎勵":"Reward";
+document.getElementById("c2Label").innerText = zh?"成本":"Cost";
+
+document.getElementById("evText1").innerText = zh?"期望值":"Expected Value";
+document.getElementById("evText2").innerText = zh?"期望值":"Expected Value";
+document.getElementById("beText1").innerText = zh?"損益平衡":"Break-even";
+document.getElementById("beText2").innerText = zh?"損益平衡":"Break-even";
+document.getElementById("kellyText1").innerText = zh?"Kelly 比例":"Kelly %";
+document.getElementById("kellyText2").innerText = zh?"Kelly 比例":"Kelly %";
+document.getElementById("worthText1").innerText = zh?"價值判斷":"Worth";
+document.getElementById("worthText2").innerText = zh?"價值判斷":"Worth";
+}
+
 document.querySelectorAll("input").forEach(i=>i.addEventListener("input",calculate));
 
 function calculate(){
-
 calculateOption("1");
 calculateOption("2");
-
 }
 
 function calculateOption(id){
-
 let p=parseFloat(document.getElementById("p"+id).value);
 let r=parseFloat(document.getElementById("r"+id).value);
 let c=parseFloat(document.getElementById("c"+id).value);
 
 if(isNaN(p)||isNaN(r)||isNaN(c)){
-reset(id);
+["ev","roi","be","kelly","worth"].forEach(prefix=>{
+document.getElementById(prefix+id).innerText="-";
+document.getElementById(prefix+id).className="value gray";
+});
 return;
 }
 
@@ -167,38 +246,25 @@ let be=c/r;
 let b=(r-c)/c;
 let k=(p*(b+1)-1)/b*100;
 
-update("ev"+id,ev);
-update("roi"+id,roi.toFixed(2)+"%");
-update("be"+id,be.toFixed(2));
-update("kelly"+id,k.toFixed(2)+"%");
+setValue("ev"+id,ev);
+setValue("roi"+id,roi.toFixed(2)+"%");
+setValue("be"+id,be.toFixed(2));
+setValue("kelly"+id,k.toFixed(2)+"%");
 
-let worthText="Neutral";
-let worthColor="gray";
-
-if(ev>0 && roi>20){worthText="Strong Positive EV";worthColor="green";}
-else if(ev>0){worthText="Slight Edge";worthColor="yellow";}
-else if(ev<0){worthText="Negative EV";worthColor="red";}
-
-setText("worth"+id,worthText,worthColor);
-
-let riskRatio=Math.abs(ev)/c;
-let riskText="Moderate";
-let riskColor="yellow";
-
-if(riskRatio>0.5){riskText="Low Risk";riskColor="green";}
-else if(riskRatio<0.1){riskText="High Risk";riskColor="red";}
-
-setText("risk"+id,riskText,riskColor);
-
+let worth="Neutral";
+let color="gray";
+if(ev>0&&roi>20){worth="Strong Positive EV";color="green";}
+else if(ev>0){worth="Slight Edge";color="yellow";}
+else if(ev<0){worth="Negative EV";color="red";}
+setText("worth"+id,worth,color);
 }
 
-function update(id,value){
+function setValue(id,val){
 let el=document.getElementById(id);
-el.innerText=value;
-
-if(typeof value==="number"){
-if(value>0) el.className="value green";
-else if(value<0) el.className="value red";
+el.innerText=val;
+if(typeof val==="number"){
+if(val>0) el.className="value green";
+else if(val<0) el.className="value red";
 else el.className="value gray";
 }
 }
@@ -207,14 +273,6 @@ function setText(id,text,color){
 let el=document.getElementById(id);
 el.innerText=text;
 el.className="value "+color;
-}
-
-function reset(id){
-["ev","roi","be","kelly","worth","risk"].forEach(prefix=>{
-let el=document.getElementById(prefix+id);
-el.innerText="-";
-el.className="value gray";
-});
 }
 </script>
 
